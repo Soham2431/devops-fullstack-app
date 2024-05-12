@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+  playground-web-db:
+    image: postgres:16.3
+    environment:
+      POSTGRES_DB: playground_web
+      POSTGRES_USER: playground_user
+      POSTGRES_PASSWORD: playground_password
+    ports:
+      - "5432:5432"
+
+  playground-web-backend:
+    build: ./backend
+    environment:
+      DB_HOST: "playground-web-db"  # Using the service name as the host
+      DB_USER: "playground_user"     # Replace with your desired database username
+      DB_PASSWORD: "playground_password"  # Replace with your desired database password
+      DB_NAME: "playground_web"      # Replace with your desired database name
+      DB_PORT: "5432"                # PostgreSQL default port
+    ports:
+      - "8080:8080"
+
+  playground-web-frontend:
+    build: ./frontend
+    environment:
+      REACT_APP_BACKEND_URL: "http://playground-web-backend:8080"
+    ports:
+      - "3000:3000"
