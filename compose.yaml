@@ -13,11 +13,12 @@ services:
   playground-web-backend:
     build: ./backend
     environment:
-      DB_HOST: "playground-web-db"  # Using the service name as the host
-      DB_USER: "playground_user"     # Replace with your desired database username
-      DB_PASSWORD: "playground_password"  # Replace with your desired database password
-      DB_NAME: "playground_web"      # Replace with your desired database name
-      DB_PORT: "5432"                # PostgreSQL default port
+      DB_HOST: playground-web-db
+      DB_USER: playground_user
+      DB_PASSWORD: playground_password
+      DB_NAME: playground_web
+      DB_PORT: 5432
+      ALLOWED_ORIGINS: "*"  
     ports:
       - "8080:8080"
 
