@@ -2,23 +2,25 @@ version: '3.9'
 
 services:
   playground-web-db:
-    image: postgres:16.3
+    image: postgres:latest
     environment:
-      POSTGRES_DB: playground_web
-      POSTGRES_USER: playground_user
-      POSTGRES_PASSWORD: playground_password
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
       - "5432:5432"
 
   playground-web-backend:
-    build: ./backend
+    build: 
+      context: ./backend
+      args:
+        GO_VERSION: "1.19"
     environment:
-      DB_HOST: playground-web-db
-      DB_USER: playground_user
-      DB_PASSWORD: playground_password
-      DB_NAME: playground_web
-      DB_PORT: 5432
-      ALLOWED_ORIGINS: "*"  
+      DB_HOST: "playground-web-db"  # Using the service name as the host
+      DB_USER: ${DB_USER}           # Using environment variables for database username
+      DB_PASSWORD: ${DB_PASSWORD}   # Using environment variables for database password
+      DB_NAME: ${DB_NAME}           # Using environment variables for database name
+      DB_PORT: "5432"               # PostgreSQL default port
     ports:
       - "8080:8080"
 
