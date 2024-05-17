@@ -1,4 +1,4 @@
-version: 3.8
+version: '3.8'
 services:
   postgres:
     container_name: postgres
@@ -10,20 +10,22 @@ services:
     ports:
       - "5432:5432"
 
- backend:
-   container_name: backend
-   build: ./backend
-   env_file:
-     - ./backend/ .env.sample
-   ports:
-     - "8080:8080"
-   depends_on:
-     - postgress
+  backend:
+    container_name: backend
+    build: ./backend
+    env_file:
+      - ./backend/.env.sample
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
 
- frontend:
-   container_name: frontend
-   build: ./frontend
-   env_file:
-     - ./backend/ .env.sample
-   ports:
-     - "3000:3000"
+  frontend:
+    container_name: frontend
+    build: ./frontend
+    env_file:
+      - ./frontend/.env.sample
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
